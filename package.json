@@ -9,11 +9,11 @@
 		"cron",
 		"automation"
 	],
-	"author": "hljhljhlj",
+	"author": "xiaolikt",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/hljhljhlj/pi-scheduled-prompts.git"
+		"url": "git+https://github.com/xiaolikt/pi-scheduled-prompts.git"
 	},
 	"pi": {
 		"extensions": [

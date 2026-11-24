@@ -29,10 +29,10 @@
 
 ```bash
 # 方式一：从 GitHub 安装
-pi install git:github.com/hljhljhlj/pi-scheduled-prompts
+pi install git:github.com/xiaolikt/pi-scheduled-prompts
 
 # 方式二：本地开发（clone 后指向源文件，改完 /reload 即生效）
-git clone https://github.com/hljhljhlj/pi-scheduled-prompts ~/Project/pi-scheduled-prompts
+git clone https://github.com/xiaolikt/pi-scheduled-prompts ~/Project/pi-scheduled-prompts
 # 然后在 ~/.pi/agent/settings.json 的 "extensions" 数组里加入：
 #   "/home/you/Project/pi-scheduled-prompts/scheduled-prompts.ts"
 ```
