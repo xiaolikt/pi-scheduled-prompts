@@ -1,6 +1,6 @@
 {
 	"name": "pi-scheduled-prompts",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Scheduled prompts for pi: inject prompts into the live session on a timer/cron, or spawn a fresh pi session (Herdr tab / headless) to run them",
 	"keywords": [
 		"pi-package",

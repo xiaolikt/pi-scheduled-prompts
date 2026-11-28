@@ -15,7 +15,7 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { Text } from "@earendil-works/pi-tui";
 import { spawn } from "node:child_process";
-import { openSync } from "node:fs";
+import { existsSync, openSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
@@ -297,11 +297,28 @@ export default function (pi: ExtensionAPI) {
 		try {
 			const logPath = join(homedir(), ".pi", "agent", `scheduled-spawn-${s.id}.log`);
 			const log = openSync(logPath, "a");
-			const child = spawn("pi", ["--print", `[scheduled ${s.id}] ${s.prompt}`], {
-				cwd: s.cwd,
-				detached: true,
-				stdio: ["ignore", log, log],
-			});
+			// 用本进程的 node 启动 pi 自己的入口脚本，不经过 shell：Windows 上 `pi` 是 .cmd
+			// 包装器，不带 shell 启动不了；带了 shell，prompt 又要交给 cmd.exe 解析。
+			// 入口拿不到时才退回裸的 `pi`（Windows 下只能走 shell）。
+			const entry = process.argv[1];
+			const viaEntry = !!entry && existsSync(entry);
+			const prompt = `[scheduled ${s.id}] ${s.prompt}`;
+			const child = viaEntry
+				? spawn(process.execPath, [entry as string, "--print", prompt], {
+						cwd: s.cwd,
+						detached: true,
+						stdio: ["ignore", log, log],
+						windowsHide: true,
+					})
+				: spawn("pi", ["--print", prompt], {
+						cwd: s.cwd,
+						detached: true,
+						stdio: ["ignore", log, log],
+						shell: process.platform === "win32",
+						windowsHide: true,
+					});
+			// 启动失败是异步的 error 事件：不监听就是未捕获异常，会把整个 pi 带崩。
+			child.on("error", (err) => notify(`🚀 ${s.id} 启动失败: ${String(err)}`, "error"));
 			child.unref();
 			notify(`🚀 ${s.id}: 已后台启动 pi --print（日志 ${logPath}）`);
 		} catch (err) {

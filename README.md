@@ -28,7 +28,10 @@
 ## 安装
 
 ```bash
-# 方式一：从 GitHub 安装
+# 方式一：从 npm 安装（pi 连同更新一起管理）
+pi install npm:pi-scheduled-prompts
+
+# 方式二：从 GitHub 安装
 pi install git:github.com/xiaolikt/pi-scheduled-prompts
 
 # 方式二：本地开发（clone 后指向源文件，改完 /reload 即生效）
