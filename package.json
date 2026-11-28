@@ -19,5 +19,15 @@
 		"extensions": [
 			"./scheduled-prompts.ts"
 		]
+	},
+	"files": [
+		"scheduled-prompts.ts",
+		"README.md"
+	],
+	"engines": {
+		"node": ">=18"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }
